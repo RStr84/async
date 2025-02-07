@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+    // JS SingleThreaded
+    // eine Funktion wird erst bis zum Ende ausgeführt bis die nächste ausgeführt werden kann → deswegen asynchrone
+    // Programmierung
+
+    console.log('start');
+
+    // 'fire and forget', 1. Parameter ist ein eFunktion, die nicht sofort aufgerufen wird
+    // der 2. Parameter sagt, nach wie vielen Millisekunden diese Funktion aufgerufen werden soll
+    setTimeout(() => {
+        console.log('hallo welt')
+        // 2_000 = 2000ms = 2sek
+        // 10ms für Zählbeispiel 1_000_000_000
+    }, 10);
+
+    console.log('ende');
+
+    for ( let i = 0; i < 1_000_000_000; i++) {
+        //
+    }
+
+</script>
+
+</body>
+</html>
