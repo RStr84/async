@@ -4,10 +4,10 @@ $fileName = $_POST['fileName'] ?? '';
 $content = '';
 
 try {
-    if (!$fileName || !file_exists('txt/' . $fileName)) {
+    if (!$fileName || !file_exists('./txt/' . $fileName)) {
         throw new Exception('Fehler: Ungültiger Dateiname oder Datei nicht gefunden!');
     }
-    $content = file_get_contents('txt/' . $fileName);
+    $content = file_get_contents('./txt/' . $fileName);
     if ($content === false) {
         throw new Exception('Fehler beim Lesen der Datei!');
     }
