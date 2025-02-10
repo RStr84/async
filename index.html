@@ -2,43 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Async</title>
 </head>
 
-<body onload="loadDoc()">
+<!--<body onload="readFile()">-->
+<body>
 
 <div id="demo"></div>
 
 <script>
     'use strict';
 
-    // const primes = [2, 3, 5, 7, 11];
-    // const foreach = function (array, fn) {
-    //     for (const item of array) {
-    //         fn(item);
-    //     }
-    // }
-    // // 'for in' geht auf den Index
-    // // 'for of' geht auf die Elemente
-    //
-    // // => ist Lambda Expression (ganze Ausdruck)
-    // foreach(primes, prime => {
-    //     console.log(prime * prime);
-    // });
-
-    function loadDoc() {
+    // liest die gewünschte Datei aus dem Verzeichnis 'txt' aus
+    // gibt im Fehlerfall 'err' aus
+    // gibt im Erfolgsfall (null, responseText) aus
+    function readFile(fileName, callback) {
+        // Listener erstellen
         const xhttp = new XMLHttpRequest();
         xhttp.onload = function () {
             if (this.responseText.substring(0, 5) === "Error") {
-                console.log(this.responseText);
-            } else {
-                document.querySelector("#demo").innerHTML = this.responseText;
-            }
+                // Antwort im Fehlerfall
+                callback(this.responseText);
+            } else
+                // Antwort mit den gewünschten Daten (Text in auslesen.txt)
+                callback(null, this.responseText);
+            document.querySelector("#demo").innerHTML = this.responseText;
         }
+
+        // Anfrage formulieren
         xhttp.open("POST", "readFile.php");
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("fileName=auslesen.txt");
+        // Anfrage abschicken
+        xhttp.send("fileName=" + fileName);
     }
+
+    // kopiert ein File und pasted sie unter einem neuen Namen
+    // @todo Datei schreiben fehlt noch
+    const copyFile = function (fileName, newFileName, callback) {
+        readFile(fileName, (err, data) => {
+            if (err) {
+                callback(err);
+            }
+            return callback(null);
+        })
+    }
+
+    copyFile("auslesen.txt", "kopieren.txt", err => {
+        if (err) console.log(err);
+    });
 
 </script>
 
