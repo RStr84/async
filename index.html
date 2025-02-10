@@ -4,24 +4,38 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+
+<body onload="loadDoc()">
+
+<div id="demo"></div>
 
 <script>
     'use strict';
 
-    const primes = [2, 3, 5, 7, 11];
-    const foreach = function (array, fn) {
-        for (const item of array) {
-            fn(item);
-        }
-    }
-    // 'for in' geht auf den Index
-    // 'for of' geht auf die Elemente
+    // const primes = [2, 3, 5, 7, 11];
+    // const foreach = function (array, fn) {
+    //     for (const item of array) {
+    //         fn(item);
+    //     }
+    // }
+    // // 'for in' geht auf den Index
+    // // 'for of' geht auf die Elemente
+    //
+    // // => ist Lambda Expression (ganze Ausdruck)
+    // foreach(primes, prime => {
+    //     console.log(prime * prime);
+    // });
 
-    // => ist Lambda Expression (ganze Ausdruck)
-    foreach(primes, prime => {
-        console.log(prime * prime);
-    });
+
+    function loadDoc() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            document.querySelector("#demo").innerHTML = this.responseText;
+        }
+        xhttp.open("POST", "readFile.php");
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("fileName=auslesen.txt");
+    }
 
 
 </script>
