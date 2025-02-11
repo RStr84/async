@@ -22,7 +22,7 @@
         xhttp.onload = function () {
             if (this.responseText.substring(0, 5) === "Error") {
                 // Antwort im Fehlerfall
-                callback(this.responseText);
+                return callback(this.responseText);
             } else
                 // Antwort mit den gewünschten Daten (Text in auslesen.txt)
                 callback(null, this.responseText);
