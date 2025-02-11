@@ -62,7 +62,6 @@
     }
 
     // kopiert ein File und pasted sie unter einem neuen Namen
-    // @todo Datei schreiben fehlt noch
     const copyFile = function (fileName, newFileName, callback) {
         readFile(fileName, (err, data) => {
             if (err) {
