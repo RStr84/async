@@ -13,6 +13,7 @@
 <script>
     'use strict';
 
+    // schreibt auf dem Server einen String in die gewünschte Datei
     // liest die gewünschte Datei aus dem Verzeichnis 'txt' aus
     // gibt im Fehlerfall 'err' aus
     // gibt im Erfolgsfall (null, responseText) aus
@@ -36,12 +37,43 @@
         xhttp.send("fileName=" + fileName);
     }
 
+    // schreibt auf dem Server einen String in die gewünschte Datei
+    // gibt im Fehlerfall 'err' aus
+    // gibt im Erfolgsfall (null, responseText) aus
+    function writeFile(fileName, content, callback) {
+        // Listener erstellen
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function () {
+            if (this.responseText.substring(0, 5) === "Error") {
+                // Antwort im Fehlerfall
+                return callback(this.responseText);
+            } else {
+                // Antwort mit den gewünschten Daten (Text in auslesen.txt)
+                callback(null, this.responseText);
+                document.querySelector("#demo").innerHTML = this.responseText;
+            }
+        }
+
+        // Anfrage formulieren
+        xhttp.open("POST", "writeFile.php");
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // Anfrage abschicken
+        xhttp.send("writeFileName=" + fileName + "&content=" + content);
+    }
+
     // kopiert ein File und pasted sie unter einem neuen Namen
     // @todo Datei schreiben fehlt noch
     const copyFile = function (fileName, newFileName, callback) {
         readFile(fileName, (err, data) => {
             if (err) {
                 callback(err);
+            }
+            writeFile(newFileName, data, callback);
+            {
+                if (err) {
+                    callback(err);
+                }
+                return callback(null);
             }
             return callback(null);
         })
